@@ -326,5 +326,8 @@ window.addEventListener("resize", fit);
 fit();
 void document.fonts.ready.then(render);
 render();
+// Start the muted film immediately without moving the visitor's keyboard focus.
+begin();
+setPlaying(true);
 requestAnimationFrame(tick);
 window.__seek = jump;
