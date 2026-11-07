@@ -228,10 +228,28 @@ function jump(seconds: number) {
   time = target = Math.max(0, Math.min(DURATION, seconds));
 }
 
+function seekBy(seconds: number) {
+  begin();
+  time = target = Math.max(0, Math.min(DURATION, time + seconds));
+  ended = time >= DURATION;
+  setPlaying(playing && !ended);
+  // A paused seek updates the visible video frame without briefly playing it.
+  previousTime = playing ? -1 : time;
+  lastSync = 0;
+  render();
+  syncVideos();
+}
+
 document
   .querySelector<HTMLButtonElement>("#startbtn")!
   .addEventListener("click", play);
 toggleButton.addEventListener("click", toggle);
+document
+  .querySelector<HTMLButtonElement>("#seek-backward")!
+  .addEventListener("click", () => seekBy(-10));
+document
+  .querySelector<HTMLButtonElement>("#seek-forward")!
+  .addEventListener("click", () => seekBy(10));
 chapterButtons.forEach((button, index) => {
   button.addEventListener("click", () => jump(CHAPTERS[index]!.target));
 });

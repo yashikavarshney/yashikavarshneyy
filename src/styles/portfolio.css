@@ -978,6 +978,31 @@ span.a.hand {
   justify-content: center;
   cursor: pointer;
 }
+.transport {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+}
+.hs {
+  position: relative;
+  background: rgba(251, 245, 236, 0.1);
+  color: #fbf5ec;
+}
+.hs:hover {
+  background: rgba(251, 245, 236, 0.2);
+}
+.hs .seek-seconds {
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  padding-top: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+}
 .hb:focus-visible,
 .hc:focus-visible {
   outline: 3px solid #f7e5a6;
@@ -1064,6 +1089,16 @@ span.a.hand {
   .hc .lbl span,
   .hch {
     display: none;
+  }
+}
+@media (max-width: 600px) {
+  .hud {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    padding: 8px 16px 10px;
+  }
+  .htrack {
+    flex-basis: 100%;
   }
 }
 .start {
