@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function Travel() {
@@ -305,7 +306,9 @@ export default function Travel() {
             <video
               className="a chr clip"
               data-src="/media/2e5a2ed042644743478fa9c8911e04ee.webm"
-              poster="/media/c513980416766cf9fbede322f1f03701.webp"
+              data-poster="/media/c513980416766cf9fbede322f1f03701.webp"
+              width={614}
+              height={756}
               muted
               playsInline
               preload="none"
@@ -323,7 +326,7 @@ export default function Travel() {
                 } as FilmStyle
               }
             ></video>
-            <img
+            <FilmImage
               className="a chr sl"
               src="/media/ebb12fc65194285fb4788258ce183576.webp"
               alt="Coco sitting on the seat beside her"
@@ -421,7 +424,7 @@ export default function Travel() {
               }
             >
               <div className="tape"></div>
-              <img
+              <FilmImage
                 src="/media/38a2b6621b784b40f42f187fb5cfd7be.webp"
                 alt="Postcard of Hanoi: Hoan Kiem Lake, Turtle Tower and the red Huc bridge at sunset"
                 style={{ width: "100%", borderRadius: "3px" } as FilmStyle}
@@ -445,7 +448,7 @@ export default function Travel() {
               }
             >
               <div className="tape pink"></div>
-              <img
+              <FilmImage
                 src="/media/042208e3ba9e4c4b8f79d608217d3cca.webp"
                 alt="Postcard of Bangkok: Wat Arun and long-tail boats on the Chao Phraya at sunset"
                 style={{ width: "100%", borderRadius: "3px" } as FilmStyle}
@@ -469,7 +472,7 @@ export default function Travel() {
               }
             >
               <div className="tape blue"></div>
-              <img
+              <FilmImage
                 src="/media/ed315e5d7a8d2b1a77dc908add386df6.webp"
                 alt="Postcard of Bali: a cliff temple above Uluwatu beach at sunset"
                 style={{ width: "100%", borderRadius: "3px" } as FilmStyle}
@@ -493,7 +496,7 @@ export default function Travel() {
               }
             >
               <div className="tape"></div>
-              <img
+              <FilmImage
                 src="/media/b94cb4a8c218405a416314618a278048.webp"
                 alt="Postcard of Almaty: the city and snowy Tien Shan mountains at sunset"
                 style={{ width: "100%", borderRadius: "3px" } as FilmStyle}
@@ -594,7 +597,9 @@ export default function Travel() {
               <video
                 className="chr clip"
                 data-src="/media/7319b2dd48161ae20ff90192c0da985f.webm"
-                poster="/media/d0aee82d982e3ce72bb6c5ac7f45e49a.webp"
+                data-poster="/media/d0aee82d982e3ce72bb6c5ac7f45e49a.webp"
+                width={424}
+                height={900}
                 muted
                 playsInline
                 preload="none"
@@ -629,7 +634,9 @@ export default function Travel() {
               <video
                 className="chr clip"
                 data-src="/media/4b4e2fe792eadd2061aa73d73b42aeb0.webm"
-                poster="/media/b3b6f11fe3f2a60f89c3705ca53b25b7.webp"
+                data-poster="/media/b3b6f11fe3f2a60f89c3705ca53b25b7.webp"
+                width={824}
+                height={654}
                 muted
                 playsInline
                 preload="none"

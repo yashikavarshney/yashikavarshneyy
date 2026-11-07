@@ -98,6 +98,7 @@ a:hover {
   overflow: hidden;
   background: #fbf5ec;
   scale: 0.5;
+  scale: min(calc(100vw / 1920px), calc(max(100vh, 360px) / 1080px));
   transform-origin: 50% 50%;
 }
 .a {
@@ -110,6 +111,9 @@ a:hover {
   width: 1920px;
   height: 1080px;
   overflow: hidden;
+}
+#stage > .scene:not([data-active]) {
+  content-visibility: hidden;
 }
 .disp {
   font-family: "Bricolage Grotesque", "Figtree", system-ui, sans-serif;

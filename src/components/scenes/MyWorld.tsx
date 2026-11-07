@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function MyWorld() {
@@ -205,7 +206,7 @@ export default function MyWorld() {
               } as FilmStyle
             }
           >
-            <img
+            <FilmImage
               src="/media/ed315e5d7a8d2b1a77dc908add386df6.webp"
               alt=""
               style={{ width: "100%" } as FilmStyle}
@@ -281,7 +282,7 @@ export default function MyWorld() {
               } as FilmStyle
             }
           >
-            <img
+            <FilmImage
               src="/media/dafe504db65cbda184ad05204efe7026.webp"
               alt=""
               style={{ width: "100%", borderRadius: "10px" } as FilmStyle}
@@ -579,7 +580,9 @@ export default function MyWorld() {
             <video
               className="chr clip"
               data-src="/media/4b4e2fe792eadd2061aa73d73b42aeb0.webm"
-              poster="/media/b3b6f11fe3f2a60f89c3705ca53b25b7.webp"
+              data-poster="/media/b3b6f11fe3f2a60f89c3705ca53b25b7.webp"
+              width={824}
+              height={654}
               muted
               playsInline
               preload="none"
@@ -615,7 +618,9 @@ export default function MyWorld() {
             <video
               className="chr clip"
               data-src="/media/514e2809c04247eaab6060838e8f64e8.webm"
-              poster="/media/4ed256ec3581a0166848b5400bcfcafd.webp"
+              data-poster="/media/4ed256ec3581a0166848b5400bcfcafd.webp"
+              width={566}
+              height={900}
               muted
               playsInline
               preload="none"

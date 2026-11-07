@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function SocialPresence() {
@@ -74,7 +75,7 @@ export default function SocialPresence() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/cf591a8296042c98f920f5da6a382b2a.webp"
                 alt="LinkedIn post: Figma Motion × LottieFiles post"
                 style={{ width: "100%", display: "block" } as FilmStyle}
@@ -90,7 +91,7 @@ export default function SocialPresence() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/b35ec2950d9a9d0ac77a464f0b22d293.webp"
                 alt="LinkedIn post: From Animation to Interface: a cross-tool design experiment"
                 style={{ width: "100%", display: "block" } as FilmStyle}
@@ -106,7 +107,7 @@ export default function SocialPresence() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/97c0fc5eba12ea82c7ad64748d1e3128.webp"
                 alt="LinkedIn post: Zomato × District Valentine’s experience"
                 style={{ width: "100%", display: "block" } as FilmStyle}
@@ -122,7 +123,7 @@ export default function SocialPresence() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/88bd8c241128ce111cab0ca89c5f5239.webp"
                 alt="LinkedIn post: Designing with AI: from prompt to polished UX"
                 style={{ width: "100%", display: "block" } as FilmStyle}
@@ -138,7 +139,7 @@ export default function SocialPresence() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/0ff327f7c885af395cc12e28e9949108.webp"
                 alt="LinkedIn post: I tried to book a Rapido ride and opened Blinkit instead"
                 style={{ width: "100%", display: "block" } as FilmStyle}
@@ -154,7 +155,7 @@ export default function SocialPresence() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/256f0de00bd0a622c86eb30529228c48.webp"
                 alt="LinkedIn post: Eight AI UI/UX tools, one prompt, a dog-grooming app"
                 style={{ width: "100%", display: "block" } as FilmStyle}
@@ -170,7 +171,7 @@ export default function SocialPresence() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/ba35b402e747260c902fee7454bb1a90.webp"
                 alt="LinkedIn post: Turning a sip of water into a loading screen"
                 style={{ width: "100%", display: "block" } as FilmStyle}
@@ -186,7 +187,7 @@ export default function SocialPresence() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/e65e7518a0d14799f299c5c5bc37b215.webp"
                 alt="LinkedIn post: Myntra Rewind 80s campaign concept"
                 style={{ width: "100%", display: "block" } as FilmStyle}
@@ -418,7 +419,9 @@ export default function SocialPresence() {
           <video
             className="chr clip"
             data-src="/media/2e5a2ed042644743478fa9c8911e04ee.webm"
-            poster="/media/c513980416766cf9fbede322f1f03701.webp"
+            data-poster="/media/c513980416766cf9fbede322f1f03701.webp"
+            width={614}
+            height={756}
             muted
             playsInline
             preload="none"

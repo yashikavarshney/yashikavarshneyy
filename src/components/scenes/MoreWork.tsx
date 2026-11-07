@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function MoreWork() {
@@ -53,7 +54,7 @@ export default function MoreWork() {
               className="card"
               style={{ padding: "10px", background: "#FFFDF8" } as FilmStyle}
             >
-              <img
+              <FilmImage
                 src="/media/e4549789f6f8456e30ea740d8af22155.webp"
                 alt="EaseMyTrip Enterprise CRM dashboard"
                 style={
@@ -85,7 +86,7 @@ export default function MoreWork() {
               className="card"
               style={{ padding: "10px", background: "#FFFDF8" } as FilmStyle}
             >
-              <img
+              <FilmImage
                 src="/media/a804787705586486a209925e290da391.webp"
                 alt="CRM query management table"
                 style={
@@ -117,7 +118,7 @@ export default function MoreWork() {
               className="card"
               style={{ padding: "10px", background: "#FFFDF8" } as FilmStyle}
             >
-              <img
+              <FilmImage
                 src="/media/0d5e7fa8ecb2027614404a1311287d08.webp"
                 alt="EasyMail admin dashboard"
                 style={
@@ -149,7 +150,7 @@ export default function MoreWork() {
               className="card"
               style={{ padding: "10px", background: "#FFFDF8" } as FilmStyle}
             >
-              <img
+              <FilmImage
                 src="/media/bc00896a48f28e34511faec154d86027.webp"
                 alt="EasyMail inbox split view"
                 style={

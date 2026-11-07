@@ -1,6 +1,7 @@
 ---
 import '../styles/fonts.css';
 import { PROFILE } from '../data/profile';
+import { POSTER_VARIANTS } from '../data/poster-variants';
 import { HOME_TITLE, SOCIAL_IMAGE, pageUrl, serializeJsonLd, structuredData } from '../lib/seo';
 
 interface Props {
@@ -14,6 +15,7 @@ const { title = HOME_TITLE, description = PROFILE.description, path = '/', anima
 const canonical = pageUrl(path, Astro.site);
 const image = pageUrl(SOCIAL_IMAGE, Astro.site);
 const schema = structuredData({ title, description, path, site: Astro.site });
+const openingPoster = POSTER_VARIANTS['/media/2f384c20c92f9ef944f51c81c3f9d7f9.webp'];
 ---
 
 <!doctype html>
@@ -21,7 +23,15 @@ const schema = structuredData({ title, description, path, site: Astro.site });
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/webp" href="/media/95e59891064ceebcd86c1ea79a7e27b6.webp" />
+    <link rel="preload" as="font" href="/fonts/figtree-400.woff2" type="font/woff2" crossorigin />
+    {animated && <>
+      <link rel="preload" as="font" href="/fonts/latin/caveat-500.woff2" type="font/woff2" crossorigin />
+      <link rel="preload" as="font" href="/fonts/latin/caveat-700.woff2" type="font/woff2" crossorigin />
+      <link rel="preload" as="font" href="/fonts/figtree-700.woff2" type="font/woff2" crossorigin />
+    </>}
+    {!animated && <link rel="preload" as="font" href="/fonts/bricolage-grotesque-800.woff2" type="font/woff2" crossorigin />}
+    {animated && <link rel="preload" as="image" href={openingPoster.src} imagesrcset={openingPoster.srcSet} imagesizes={openingPoster.sizes} fetchpriority="high" />}
+    <link rel="icon" type="image/webp" href="/favicon.webp" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={PROFILE.name} />

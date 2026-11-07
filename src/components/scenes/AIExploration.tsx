@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function AIExploration() {
@@ -309,7 +310,7 @@ export default function AIExploration() {
           }
         >
           <div className="card" style={{ padding: "8px" } as FilmStyle}>
-            <img
+            <FilmImage
               src="/media/c5c7e297a11c8203d174ec8b0d53c9b7.webp"
               alt="LinkedIn post: Designing with AI, from prompt to polished UX"
               style={{ width: "100%", borderRadius: "10px" } as FilmStyle}
@@ -330,7 +331,7 @@ export default function AIExploration() {
           }
         >
           <div className="card" style={{ padding: "8px" } as FilmStyle}>
-            <img
+            <FilmImage
               src="/media/3a0bc706b23db2cd472ccb461d526f92.webp"
               alt="LinkedIn post: can AI tools elevate mobile app design? Eight AI UI/UX tools tested"
               style={{ width: "100%", borderRadius: "10px" } as FilmStyle}
@@ -447,7 +448,9 @@ export default function AIExploration() {
             <video
               className="chr clip"
               data-src="/media/c7cdbb3dad6defa1a00de30432daf88c.webm"
-              poster="/media/f18d353877eeca899eb1e244e776ad69.webp"
+              data-poster="/media/f18d353877eeca899eb1e244e776ad69.webp"
+              width={626}
+              height={752}
               muted
               playsInline
               preload="none"

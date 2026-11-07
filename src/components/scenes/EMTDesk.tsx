@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function EMTDesk() {
@@ -89,7 +90,7 @@ export default function EMTDesk() {
                   className="a win"
                   style={{ inset: "0", "--d": "58s", "--l": "6s" } as FilmStyle}
                 >
-                  <img
+                  <FilmImage
                     className="a"
                     src="/media/dafe504db65cbda184ad05204efe7026.webp"
                     alt="EMTDesk marketing site"
@@ -166,7 +167,7 @@ export default function EMTDesk() {
                   className="a win"
                   style={{ inset: "0", "--d": "64s", "--l": "4s" } as FilmStyle}
                 >
-                  <img
+                  <FilmImage
                     className="a"
                     src="/media/fe1926be652f37cc96b21d87fcfa076f.webp"
                     alt="EMTDesk admin dashboard"
@@ -199,7 +200,7 @@ export default function EMTDesk() {
                   className="a win"
                   style={{ inset: "0", "--d": "68s", "--l": "4s" } as FilmStyle}
                 >
-                  <img
+                  <FilmImage
                     className="a"
                     src="/media/620b32e55852270e2023e3ff271252ca.webp"
                     alt="EMTDesk employee dashboard"
@@ -232,7 +233,7 @@ export default function EMTDesk() {
                   className="a win"
                   style={{ inset: "0", "--d": "72s", "--l": "4s" } as FilmStyle}
                 >
-                  <img
+                  <FilmImage
                     className="a"
                     src="/media/fe1926be652f37cc96b21d87fcfa076f.webp"
                     alt="Dashboard with Create Trip"
@@ -245,7 +246,7 @@ export default function EMTDesk() {
                       } as FilmStyle
                     }
                   />
-                  <img
+                  <FilmImage
                     className="a fi"
                     src="/media/75e5b3050d279c147027356ce2d1294e.webp"
                     alt="Dashboard without Create Trip"
@@ -293,7 +294,7 @@ export default function EMTDesk() {
                       } as FilmStyle
                     }
                   >
-                    <img
+                    <FilmImage
                       className="pop"
                       src="/media/9cfee8e8dc0d253935f51d2bf722a1c2.webp"
                       alt="EMTDesk KPI widgets"
@@ -352,7 +353,9 @@ export default function EMTDesk() {
           <video
             className="chr clip"
             data-src="/media/f8b8f8b379e9e09090414667b32f0908.webm"
-            poster="/media/cc2039fd92256bff50664a3cc58c8ee9.webp"
+            data-poster="/media/cc2039fd92256bff50664a3cc58c8ee9.webp"
+            width={502}
+            height={900}
             muted
             playsInline
             preload="none"

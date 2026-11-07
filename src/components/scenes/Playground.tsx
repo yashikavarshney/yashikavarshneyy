@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function Playground() {
@@ -254,7 +255,7 @@ export default function Playground() {
               className="card"
               style={{ padding: "14px 14px 20px" } as FilmStyle}
             >
-              <img
+              <FilmImage
                 src="/media/56a0711604661815f1c532ee79232fbd.webp"
                 alt="Lottie Certified Creator certificate awarded to Yashika Varshney"
                 style={{ width: "100%", borderRadius: "10px" } as FilmStyle}
@@ -332,7 +333,7 @@ export default function Playground() {
           }
         >
           <div className="card" style={{ padding: "8px" } as FilmStyle}>
-            <img
+            <FilmImage
               src="/media/883916a0fa363666c533c2af30712689.webp"
               alt="LottieFiles for Figma course certificate"
               style={{ width: "100%", borderRadius: "6px" } as FilmStyle}
@@ -353,7 +354,7 @@ export default function Playground() {
           }
         >
           <div className="card" style={{ padding: "8px" } as FilmStyle}>
-            <img
+            <FilmImage
               src="/media/0ada1c3bb5780d9b80a9cbc325bb9876.webp"
               alt="LottieFiles for Framer course certificate"
               style={{ width: "100%", borderRadius: "6px" } as FilmStyle}
@@ -499,7 +500,9 @@ export default function Playground() {
             <video
               className="chr clip"
               data-src="/media/2c1e10c767713911400b724ce2298da6.webm"
-              poster="/media/cd9cb20b5274b02c64b3e71271ebdde6.webp"
+              data-poster="/media/cd9cb20b5274b02c64b3e71271ebdde6.webp"
+              width={618}
+              height={900}
               muted
               playsInline
               preload="none"

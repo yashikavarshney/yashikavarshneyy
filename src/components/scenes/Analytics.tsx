@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function Analytics() {
@@ -110,7 +111,7 @@ export default function Analytics() {
               } as FilmStyle
             }
           >
-            <img
+            <FilmImage
               src="/media/5e572533d248e9498d611f44a0cd5749.webp"
               alt="EMT Analytics dashboard with global filters, KPI row and active-user trend"
               style={
@@ -296,7 +297,9 @@ export default function Analytics() {
             <video
               className="chr clip fo"
               data-src="/media/514e2809c04247eaab6060838e8f64e8.webm"
-              poster="/media/4ed256ec3581a0166848b5400bcfcafd.webp"
+              data-poster="/media/4ed256ec3581a0166848b5400bcfcafd.webp"
+              width={566}
+              height={900}
               muted
               playsInline
               preload="none"
@@ -321,7 +324,9 @@ export default function Analytics() {
           <video
             className="a fi chr clip"
             data-src="/media/f9fd5915c778c440bb0b8caad12ee604.webm"
-            poster="/media/3412b245d77460ba302cc7e243be618b.webp"
+            data-poster="/media/3412b245d77460ba302cc7e243be618b.webp"
+            width={388}
+            height={900}
             muted
             playsInline
             preload="none"

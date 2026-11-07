@@ -1,4 +1,5 @@
 import { CHAPTERS, DURATION, SHOTS } from "../data/film";
+import { chooseVideoSource } from "../lib/video-source";
 
 declare global {
   interface Window {
@@ -16,8 +17,65 @@ const toggleButton = document.querySelector<HTMLButtonElement>("#toggle")!;
 const start = document.querySelector<HTMLElement>("#start")!;
 const chapterButtons = [...document.querySelectorAll<HTMLButtonElement>(".hc")];
 const sparks = [...document.querySelectorAll<SVGElement>(".spark")];
-const videos = [...stage.querySelectorAll<HTMLVideoElement>("video.clip")];
-const animations = new Set<Animation>();
+// Template contents remain inert until their chapter is selected. Keep direct
+// references so seeking can prepare media before inserting a future scene.
+const sceneTemplates = [
+  ...stage.querySelectorAll<HTMLTemplateElement>("template[data-film-scene]"),
+];
+const mediaScopes: ParentNode[] = [
+  root,
+  ...sceneTemplates.map((template) => template.content),
+];
+const layers: {
+  element: Element;
+  template: HTMLTemplateElement | null;
+}[] = [
+  ...[...stage.children]
+    .filter((element) => !(element instanceof HTMLTemplateElement))
+    .map((element) => ({ element, template: null })),
+  ...sceneTemplates.flatMap((template) =>
+    [...template.content.children].map((element) => ({ element, template })),
+  ),
+];
+const videos = mediaScopes.flatMap((scope) => [
+  ...scope.querySelectorAll<HTMLVideoElement>("video.clip"),
+]);
+const videoSources = new Map<
+  HTMLVideoElement,
+  { src: string; height: number }
+>();
+let stageScale = 1;
+const finiteAnimations: {
+  animation: Animation;
+  delay: number;
+  end: number;
+  sample: number;
+}[] = [];
+const ambientAnimations: Animation[] = [];
+const collectedAnimations = new WeakSet<Animation>();
+const sceneWindows = layers
+  .filter(({ element }) => element.classList.contains("scene"))
+  .map(({ element, template }) => ({
+    element,
+    template,
+    window: visibilityWindow(element),
+    active: false,
+  }));
+const chapterFills = chapterButtons.map((button) =>
+  button.querySelector<HTMLElement>(".fill")!,
+);
+const videoWindows = new Map(
+  videos.map((video) => [video, visibilityWindow(video)]),
+);
+const deferredMedia = mediaScopes.flatMap((scope) => [
+  ...scope.querySelectorAll<HTMLImageElement | HTMLVideoElement>(
+    "img[data-src], video[data-poster]",
+  ),
+]).filter((element) => !element.closest("#start")).map((element) => ({
+  element,
+  window: visibilityWindow(element),
+  loaded: false,
+}));
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // Preserve the original poster fallback for Safari's transparent WebM handling.
@@ -44,11 +102,50 @@ let previousTime = -1;
 let loopsPlaying: boolean | null = null;
 let scrubbing = false;
 let resumeAfterScrub = false;
+let lastAccessibleTime = "";
+let initialArtworkPainted = false;
 
 function fit() {
-  stage.style.scale = String(
-    Math.min(root.clientWidth / 1920, root.clientHeight / 1080),
-  );
+  stageScale = Math.min(root.clientWidth / 1920, root.clientHeight / 1080);
+  stage.style.scale = String(stageScale);
+}
+
+function visibilityWindow(element: Element) {
+  const window = element.closest<HTMLElement>(".win");
+  const start =
+    Number.parseFloat(window?.style.getPropertyValue("--d") || "0") * 1000;
+  const duration =
+    Number.parseFloat(window?.style.getPropertyValue("--l") || "0.9") * 1000;
+  return {
+    start,
+    end:
+      window && !window.classList.contains("last")
+        ? start + duration
+        : Infinity,
+  };
+}
+
+function prepareMedia(milliseconds: number) {
+  for (const resource of deferredMedia) {
+    if (
+      resource.loaded ||
+      milliseconds < resource.window.start - 5000 ||
+      milliseconds >= resource.window.end
+    )
+      continue;
+    const { element } = resource;
+    if (element instanceof HTMLImageElement) {
+      // Timing controls prefetch here; viewport-based lazy loading cannot know
+      // when an overlapping, currently hidden film scene will be shown.
+      element.loading = "eager";
+      element.fetchPriority =
+        milliseconds >= resource.window.start ? "high" : "low";
+      element.src = element.dataset.src!;
+    } else {
+      element.poster = element.dataset.poster!;
+    }
+    resource.loaded = true;
+  }
 }
 
 function setPlaying(value: boolean) {
@@ -60,25 +157,82 @@ function setPlaying(value: boolean) {
   );
 }
 
-function animationName(animation: Animation) {
-  return "animationName" in animation ? String(animation.animationName) : "";
+function collectAnimations(elements: Element[]) {
+  // The film's DOM and CSS are static: discovering every scene on every frame
+  // forces needless style work, even for chapters minutes away from playback.
+  // Finish all style/timing reads before pausing animations. Interleaving those
+  // writes with getAnimations() makes Chrome recalculate styles for each layer.
+  const discovered = elements.flatMap((element) =>
+    element.getAnimations({ subtree: true }),
+  );
+  const toPause: Animation[] = [];
+  for (const animation of discovered) {
+    if (collectedAnimations.has(animation)) continue;
+    collectedAnimations.add(animation);
+    const name =
+      "animationName" in animation ? String(animation.animationName) : "";
+    if (name.startsWith("loop")) {
+      if (loopsPlaying === false) toPause.push(animation);
+      ambientAnimations.push(animation);
+      continue;
+    }
+    finiteAnimations.push({
+      animation,
+      delay: Number(animation.effect!.getTiming().delay),
+      end: Number(animation.effect!.getComputedTiming().endTime),
+      sample: NaN,
+    });
+    toPause.push(animation);
+  }
+  for (const animation of toPause) animation.pause();
+}
+
+function updateSceneVisibility(milliseconds: number) {
+  const activated: Element[] = [];
+  for (const scene of sceneWindows) {
+    // Insert shortly before playback so the browser can fetch this chapter's
+    // images and fonts while the current scene is still on screen.
+    if (
+      scene.template?.isConnected &&
+      milliseconds >= scene.window.start - 5000 &&
+      milliseconds < scene.window.end
+    )
+      scene.template.replaceWith(scene.template.content);
+    const active =
+      milliseconds >= scene.window.start && milliseconds < scene.window.end;
+    if (active === scene.active) continue;
+    scene.active = active;
+    if (active) {
+      scene.element.setAttribute("data-active", "true");
+      activated.push(scene.element);
+    } else {
+      scene.element.removeAttribute("data-active");
+    }
+  }
+  collectAnimations(activated);
 }
 
 function render() {
   const milliseconds = Math.min(time, DURATION - 0.001) * 1000;
-  for (const animation of stage.getAnimations({ subtree: true }))
-    animations.add(animation);
-  for (const animation of animations) {
-    if (animationName(animation).startsWith("loop")) continue;
-    if (animation.playState !== "paused") animation.pause();
-    animation.currentTime = milliseconds;
+  updateSceneVisibility(milliseconds);
+  prepareMedia(milliseconds);
+  for (const entry of finiteAnimations) {
+    // Before/after a finite animation, its visual result is constant. Keep
+    // those states cached while preserving exact boundary and reverse seeks.
+    const sample =
+      milliseconds < entry.delay ? 0 : Math.min(milliseconds, entry.end + 1);
+    if (sample === entry.sample) continue;
+    entry.animation.currentTime = sample;
+    entry.sample = sample;
   }
 
-  range.value = String(Math.round(time * 10));
-  range.setAttribute(
-    "aria-valuetext",
-    `${formatTime(time)} of ${formatTime(DURATION)}`,
-  );
+  const value = String(Math.round(time * 10));
+  if (range.value !== value) range.value = value;
+  const accessibleTime = `${formatTime(time)} of ${formatTime(DURATION)}`;
+  if (accessibleTime !== lastAccessibleTime) {
+    range.setAttribute("aria-valuetext", accessibleTime);
+    lastAccessibleTime = accessibleTime;
+  }
   chapterButtons.forEach((button, index) => {
     const chapter = CHAPTERS[index]!;
     const end = CHAPTERS[index + 1]?.start ?? DURATION;
@@ -86,8 +240,9 @@ function render() {
       0,
       Math.min(1, (time - chapter.start) / (end - chapter.start)),
     );
-    button.querySelector<HTMLElement>(".fill")!.style.scale =
-      `${fraction.toFixed(4)} 1`;
+    const scale = `${fraction.toFixed(4)} 1`;
+    if (chapterFills[index]!.style.scale !== scale)
+      chapterFills[index]!.style.scale = scale;
     button.classList.toggle(
       "on",
       time >= chapter.start - 0.01 &&
@@ -122,25 +277,52 @@ function syncVideos() {
 
   if (live !== loopsPlaying) {
     loopsPlaying = live;
-    for (const animation of animations) {
-      if (!animationName(animation).startsWith("loop")) continue;
+    for (const animation of ambientAnimations) {
       if (live && animation.playState === "paused") animation.play();
       else if (!live && animation.playState !== "paused") animation.pause();
     }
   }
 
   for (const video of videos) {
-    if (getComputedStyle(video).visibility !== "visible") {
+    const visibility = videoWindows.get(video)!;
+    const milliseconds = Math.min(time, DURATION - 0.001) * 1000;
+    if (milliseconds < visibility.start || milliseconds >= visibility.end) {
       if (!video.paused) video.pause();
       continue;
     }
     if (posterOnly) continue;
+    if (!initialArtworkPainted) continue;
 
     // Fetch clips only when their scene is visible. Posters are static assets,
     // so jumping directly to a chapter still has an immediate visual fallback.
-    if (!video.hasAttribute("src")) {
+    const source = chooseVideoSource(
+      video.dataset.src!,
+      stageScale,
+      window.devicePixelRatio || 1,
+    );
+    const previousSource = videoSources.get(video);
+    if (
+      !video.hasAttribute("src") ||
+      (previousSource && source.height > previousSource.height)
+    ) {
+      const previousPosition = video.currentTime;
+      videoSources.set(video, source);
       video.preload = "auto";
-      video.src = video.dataset.src!;
+      video.addEventListener(
+        "loadedmetadata",
+        () => {
+          const position = video.dataset.loop
+            ? previousPosition
+            : Math.max(0, time - Number(video.dataset.start ?? 0));
+          video.currentTime = Math.min(
+            position,
+            Math.max(0, video.duration - 0.05),
+          );
+          if (playing) void video.play().catch(() => {});
+        },
+        { once: true },
+      );
+      video.src = source.src;
     }
 
     if (video.dataset.loop) {
@@ -429,6 +611,16 @@ root.addEventListener("mousemove", (event) => {
 
 window.addEventListener("resize", fit);
 fit();
+const initialLayers = layers
+  .filter(({ element }) => !element.classList.contains("scene"))
+  .map(({ element }) => element);
+for (const scene of sceneWindows) {
+  if (scene.window.start <= 0 && scene.window.end > 0) {
+    scene.active = true;
+    initialLayers.push(scene.element);
+  }
+}
+collectAnimations(initialLayers);
 void document.fonts.ready.then(render);
 render();
 // Start the muted film immediately without moving the visitor's keyboard focus.
@@ -436,3 +628,34 @@ begin();
 setPlaying(true);
 requestAnimationFrame(tick);
 window.__seek = jump;
+
+// Paint the opening artwork before competing for bandwidth with decorative
+// motion clips. The film clock/autoplay continue normally during enhancement.
+const openingPosters = videos
+  .filter((video) => video.dataset.initialPoster)
+  .map(async (video) => {
+    // Video posters have no native srcset. Let the browser choose through an
+    // Image using the same candidates/sizes as the critical preload hint.
+    const artwork = new Image();
+    artwork.fetchPriority = video === videos[0] ? "high" : "auto";
+    artwork.sizes = video.dataset.posterSizes!;
+    artwork.srcset = video.dataset.posterSrcset!;
+    artwork.src = video.dataset.initialPoster!;
+    const updatePoster = () => {
+      video.poster = artwork.currentSrc || artwork.src;
+    };
+    artwork.addEventListener("load", updatePoster);
+    // Retain the responsive selector for viewport changes, including Safari
+    // where this poster remains the visible transparent-video fallback.
+    window.addEventListener("resize", updatePoster);
+    await artwork.decode().catch(() => {});
+    updatePoster();
+  });
+void Promise.all(openingPosters).then(() => {
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => {
+      initialArtworkPainted = true;
+      lastSync = 0;
+    }),
+  );
+});

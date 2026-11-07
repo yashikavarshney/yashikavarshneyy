@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function DesignProcess() {
@@ -339,7 +340,7 @@ export default function DesignProcess() {
                 className="ui"
                 style={{ height: "100%", overflow: "hidden" } as FilmStyle}
               >
-                <img
+                <FilmImage
                   src="/media/fe1926be652f37cc96b21d87fcfa076f.webp"
                   alt=""
                   style={
@@ -480,7 +481,7 @@ export default function DesignProcess() {
                 className="ui"
                 style={{ height: "100%", overflow: "hidden" } as FilmStyle}
               >
-                <img
+                <FilmImage
                   src="/media/468740d09baa3c30d280293bf24e5123.webp"
                   alt=""
                   style={
@@ -578,7 +579,7 @@ export default function DesignProcess() {
                 className="ui"
                 style={{ height: "100%", overflow: "hidden" } as FilmStyle}
               >
-                <img
+                <FilmImage
                   src="/media/9cfee8e8dc0d253935f51d2bf722a1c2.webp"
                   alt=""
                   style={
@@ -642,7 +643,9 @@ export default function DesignProcess() {
                   <video
                     className="chr clip"
                     data-src="/media/f9fd5915c778c440bb0b8caad12ee604.webm"
-                    poster="/media/3412b245d77460ba302cc7e243be618b.webp"
+                    data-poster="/media/3412b245d77460ba302cc7e243be618b.webp"
+                    width={388}
+                    height={900}
                     muted
                     playsInline
                     preload="none"
@@ -668,7 +671,9 @@ export default function DesignProcess() {
               <video
                 className="a chr clip"
                 data-src="/media/16a88bd996b1287d2e872ab84b338e11.webm"
-                poster="/media/365b88c6d2abc248663f79cad11a365f.webp"
+                data-poster="/media/365b88c6d2abc248663f79cad11a365f.webp"
+                width={432}
+                height={900}
                 muted
                 playsInline
                 preload="none"
@@ -694,7 +699,9 @@ export default function DesignProcess() {
               <video
                 className="a chr clip"
                 data-src="/media/f9fd5915c778c440bb0b8caad12ee604.webm"
-                poster="/media/3412b245d77460ba302cc7e243be618b.webp"
+                data-poster="/media/3412b245d77460ba302cc7e243be618b.webp"
+                width={388}
+                height={900}
                 muted
                 playsInline
                 preload="none"
@@ -961,7 +968,7 @@ export default function DesignProcess() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/78d153e4d3192ba2357169147f51fd13.webp"
                 alt="Yashika researching on her tablet"
                 style={
@@ -1000,7 +1007,7 @@ export default function DesignProcess() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/afebfbbe945f54e4d723ced52582d48a.webp"
                 alt="Yashika surprised by an idea"
                 style={
@@ -1039,7 +1046,7 @@ export default function DesignProcess() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/fb59257d046b1bf1e8974aef9ef67abe.webp"
                 alt="Yashika designing on her laptop"
                 style={
@@ -1078,7 +1085,7 @@ export default function DesignProcess() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/cf4be100176ee32c07f334207d393deb.webp"
                 alt="Yashika with a snap and a wink"
                 style={
@@ -1118,7 +1125,7 @@ export default function DesignProcess() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 src="/media/1eb3162419584d1de30121a45429db1b.webp"
                 alt="Yashika dancing — it shipped"
                 style={
@@ -1249,7 +1256,9 @@ export default function DesignProcess() {
               <video
                 className="chr clip"
                 data-src="/media/57e75d6de34a48486b87936fe2974aca.webm"
-                poster="/media/1feb3fb8cd8b8b7f0cfe3a9c5ed5401d.webp"
+                data-poster="/media/1feb3fb8cd8b8b7f0cfe3a9c5ed5401d.webp"
+                width={588}
+                height={900}
                 muted
                 playsInline
                 preload="none"

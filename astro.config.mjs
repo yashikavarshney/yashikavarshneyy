@@ -10,5 +10,6 @@ export default defineConfig({
   site,
   output: 'static',
   trailingSlash: 'always',
+  build: { inlineStylesheets: 'always' },
   integrations: [react()],
 });

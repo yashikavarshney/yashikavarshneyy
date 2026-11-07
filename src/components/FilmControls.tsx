@@ -1,3 +1,4 @@
+import FilmImage from "./FilmImage";
 import { CHAPTERS } from "../data/film";
 import type { FilmStyle } from "../types/film";
 
@@ -66,7 +67,7 @@ export default function FilmControls() {
       </svg>
 
       <div className="start" id="start">
-        <img
+        <FilmImage
           src="/media/95e59891064ceebcd86c1ea79a7e27b6.webp"
           alt="yashie"
           style={

@@ -26,19 +26,19 @@ export default function PortfolioFilm() {
     >
       <div className="stage" id="stage">
         <Opening />
-        <MyWorld />
-        <DesignProcess />
-        <EMTDesk />
-        <QMS />
-        <Analytics />
-        <MoreWork />
-        <Playground />
-        <AIExploration />
-        <SocialPresence />
-        <Travel />
-        <Studio />
-        <About />
-        <Connect />
+        <template data-film-scene><MyWorld /></template>
+        <template data-film-scene><DesignProcess /></template>
+        <template data-film-scene><EMTDesk /></template>
+        <template data-film-scene><QMS /></template>
+        <template data-film-scene><Analytics /></template>
+        <template data-film-scene><MoreWork /></template>
+        <template data-film-scene><Playground /></template>
+        <template data-film-scene><AIExploration /></template>
+        <template data-film-scene><SocialPresence /></template>
+        <template data-film-scene><Travel /></template>
+        <template data-film-scene><Studio /></template>
+        <template data-film-scene><About /></template>
+        <template data-film-scene><Connect /></template>
         <FilmOverlays />
       </div>
       <FilmControls />

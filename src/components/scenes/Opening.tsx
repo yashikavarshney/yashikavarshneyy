@@ -1,11 +1,18 @@
+import { POSTER_VARIANTS } from "../../data/poster-variants";
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function Opening() {
+  const personPoster =
+    POSTER_VARIANTS["/media/2f384c20c92f9ef944f51c81c3f9d7f9.webp"]!;
+  const dogPoster =
+    POSTER_VARIANTS["/media/44411792726a475f15e880342b6f791e.webp"]!;
   return (
     <>
       {/* ================= SCENE 01 · OPENING (0–20s) ================= */}
       <section
         className="scene win"
+        data-active="true"
         style={{ "--d": "0s", "--l": "20s" } as FilmStyle}
         aria-label="Scene 1: opening"
       >
@@ -142,7 +149,8 @@ export default function Opening() {
                   } as FilmStyle
                 }
               >
-                <img
+                <FilmImage
+                  eager
                   src="/media/38a2b6621b784b40f42f187fb5cfd7be.webp"
                   alt=""
                   style={{ width: "100%" } as FilmStyle}
@@ -163,7 +171,8 @@ export default function Opening() {
                   } as FilmStyle
                 }
               >
-                <img
+                <FilmImage
+                  eager
                   src="/media/b94cb4a8c218405a416314618a278048.webp"
                   alt=""
                   style={{ width: "100%" } as FilmStyle}
@@ -374,7 +383,9 @@ export default function Opening() {
               <video
                 className="a chr clip"
                 data-src="/media/b0a1f9aa8422854494c7d826a18e2b58.webm"
-                poster="/media/2f384c20c92f9ef944f51c81c3f9d7f9.webp"
+                data-initial-poster={personPoster.src}
+                data-poster-srcset={personPoster.srcSet}
+                data-poster-sizes={personPoster.sizes}
                 muted
                 playsInline
                 preload="none"
@@ -386,6 +397,7 @@ export default function Opening() {
                     top: "240px",
                     height: "735px",
                     width: "auto",
+                    aspectRatio: "127 / 160",
                     maxWidth: "none",
                     marginLeft: "-22px",
                     marginTop: "-22px",
@@ -400,7 +412,9 @@ export default function Opening() {
               <video
                 className="a chr clip"
                 data-src="/media/821200d7146a33ddd324d79a9d7a5c9c.webm"
-                poster="/media/a6f2c44596a60fb95470a05d82e4801e.webp"
+                data-poster="/media/a6f2c44596a60fb95470a05d82e4801e.webp"
+                width={586}
+                height={742}
                 muted
                 playsInline
                 preload="none"
@@ -422,7 +436,9 @@ export default function Opening() {
             <video
               className="a chr clip"
               data-src="/media/6c6aed35f42cdf7dff61b6043078d79f.webm"
-              poster="/media/44411792726a475f15e880342b6f791e.webp"
+              data-initial-poster={dogPoster.src}
+              data-poster-srcset={dogPoster.srcSet}
+              data-poster-sizes={dogPoster.sizes}
               muted
               playsInline
               preload="none"
@@ -434,6 +450,7 @@ export default function Opening() {
                   top: "790px",
                   height: "192px",
                   width: "auto",
+                  aspectRatio: "443 / 240",
                   maxWidth: "none",
                   marginLeft: "-25px",
                   marginTop: "-28px",
@@ -602,6 +619,7 @@ export default function Opening() {
           </div>
         </div>
 
+        <template data-film-scene>
         <div
           className="scene win"
           style={{ "--d": "14s", "--l": "6s" } as FilmStyle}
@@ -669,7 +687,9 @@ export default function Opening() {
                 <video
                   className="chr clip"
                   data-src="/media/f9fd5915c778c440bb0b8caad12ee604.webm"
-                  poster="/media/3412b245d77460ba302cc7e243be618b.webp"
+                  data-poster="/media/3412b245d77460ba302cc7e243be618b.webp"
+                  width={388}
+                  height={900}
                   muted
                   playsInline
                   preload="none"
@@ -711,7 +731,9 @@ export default function Opening() {
                   <video
                     className="chr clip"
                     data-src="/media/514e2809c04247eaab6060838e8f64e8.webm"
-                    poster="/media/4ed256ec3581a0166848b5400bcfcafd.webp"
+                    data-poster="/media/4ed256ec3581a0166848b5400bcfcafd.webp"
+                    width={566}
+                    height={900}
                     muted
                     playsInline
                     preload="none"
@@ -802,6 +824,7 @@ export default function Opening() {
             Let me show you what I do.<i className="tail"></i>
           </div>
         </div>
+        </template>
       </section>
     </>
   );

@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function QMS() {
@@ -56,7 +57,9 @@ export default function QMS() {
           <video
             className="a chr clip fo"
             data-src="/media/57a497b78c24f751fe9d0d26e6be984d.webm"
-            poster="/media/df85a9829c47064b365173ef60b17363.webp"
+            data-poster="/media/df85a9829c47064b365173ef60b17363.webp"
+            width={500}
+            height={900}
             muted
             playsInline
             preload="none"
@@ -84,7 +87,9 @@ export default function QMS() {
           <video
             className="a fi chr clip"
             data-src="/media/f9fd5915c778c440bb0b8caad12ee604.webm"
-            poster="/media/3412b245d77460ba302cc7e243be618b.webp"
+            data-poster="/media/3412b245d77460ba302cc7e243be618b.webp"
+            width={388}
+            height={900}
             muted
             playsInline
             preload="none"
@@ -138,7 +143,7 @@ export default function QMS() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 className="a"
                 src="/media/c0da986a414efa49659ed3b4a6adcbe5.webp"
                 alt="QMS dashboard"
@@ -231,7 +236,7 @@ export default function QMS() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 className="a"
                 src="/media/0724bc49ac20aab9afca2b1ca203fc93.webp"
                 alt="QMS query detail form"
@@ -281,7 +286,7 @@ export default function QMS() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 className="a"
                 src="/media/3983074703fa197c3561fec285fcc316.webp"
                 alt="QMS dashboard — the command centre"
@@ -316,7 +321,7 @@ export default function QMS() {
                 } as FilmStyle
               }
             >
-              <img
+              <FilmImage
                 className="a"
                 src="/media/468740d09baa3c30d280293bf24e5123.webp"
                 alt="QMS package builder"

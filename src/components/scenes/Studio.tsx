@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function Studio() {
@@ -163,7 +164,7 @@ export default function Studio() {
               } as FilmStyle
             }
           >
-            <img
+            <FilmImage
               src="/media/38a2b6621b784b40f42f187fb5cfd7be.webp"
               alt="Hanoi postcard"
               style={{ width: "100%" } as FilmStyle}
@@ -737,7 +738,9 @@ export default function Studio() {
           <video
             className="a sl chr clip"
             data-src="/media/f8b8f8b379e9e09090414667b32f0908.webm"
-            poster="/media/cc2039fd92256bff50664a3cc58c8ee9.webp"
+            data-poster="/media/cc2039fd92256bff50664a3cc58c8ee9.webp"
+            width={502}
+            height={900}
             muted
             playsInline
             preload="none"

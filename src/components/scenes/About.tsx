@@ -1,3 +1,4 @@
+import FilmImage from "../FilmImage";
 import type { FilmStyle } from "../../types/film";
 
 export default function About() {
@@ -73,7 +74,9 @@ export default function About() {
           <video
             className="a fi chr clip"
             data-src="/media/2e5a2ed042644743478fa9c8911e04ee.webm"
-            poster="/media/c513980416766cf9fbede322f1f03701.webp"
+            data-poster="/media/c513980416766cf9fbede322f1f03701.webp"
+            width={614}
+            height={756}
             muted
             playsInline
             preload="none"
@@ -97,7 +100,9 @@ export default function About() {
           <video
             className="a chr clip"
             data-src="/media/6c6aed35f42cdf7dff61b6043078d79f.webm"
-            poster="/media/44411792726a475f15e880342b6f791e.webp"
+            data-poster="/media/44411792726a475f15e880342b6f791e.webp"
+            width={952}
+            height={516}
             muted
             playsInline
             preload="none"
@@ -343,7 +348,7 @@ export default function About() {
         >
           <div className="polaroid" style={{ padding: "10px" } as FilmStyle}>
             <div className="tape"></div>
-            <img
+            <FilmImage
               src="/media/4368d42213c668bed3b768368c40113a.webp"
               alt="Google: Foundations of User Experience (UX) Design certificate"
               style={{ width: "100%" } as FilmStyle}
@@ -365,7 +370,7 @@ export default function About() {
         >
           <div className="polaroid" style={{ padding: "10px" } as FilmStyle}>
             <div className="tape"></div>
-            <img
+            <FilmImage
               src="/media/56a0711604661815f1c532ee79232fbd.webp"
               alt="Lottie Certified Creator"
               style={{ width: "100%" } as FilmStyle}
@@ -387,7 +392,7 @@ export default function About() {
         >
           <div className="polaroid" style={{ padding: "10px" } as FilmStyle}>
             <div className="tape"></div>
-            <img
+            <FilmImage
               src="/media/883916a0fa363666c533c2af30712689.webp"
               alt="LottieFiles for Figma course certificate"
               style={{ width: "100%" } as FilmStyle}
@@ -409,7 +414,7 @@ export default function About() {
         >
           <div className="polaroid" style={{ padding: "10px" } as FilmStyle}>
             <div className="tape"></div>
-            <img
+            <FilmImage
               src="/media/0ada1c3bb5780d9b80a9cbc325bb9876.webp"
               alt="LottieFiles for Framer course certificate"
               style={{ width: "100%" } as FilmStyle}

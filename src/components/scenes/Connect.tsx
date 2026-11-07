@@ -152,7 +152,9 @@ export default function Connect() {
           <video
             className="a chr clip"
             data-src="/media/be33c473041f7708ddb6501b53d35d56.webm"
-            poster="/media/9309bc99d1a4669bfc98e61b6217684c.webp"
+            data-poster="/media/9309bc99d1a4669bfc98e61b6217684c.webp"
+            width={682}
+            height={758}
             muted
             playsInline
             preload="none"
