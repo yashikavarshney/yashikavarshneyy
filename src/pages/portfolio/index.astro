@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReadablePortfolio from '../../components/ReadablePortfolio';
+import { PORTFOLIO_TITLE } from '../../lib/seo';
+import '../../styles/readable-portfolio.css';
+---
+
+<BaseLayout title={PORTFOLIO_TITLE} path="/portfolio/">
+  <ReadablePortfolio />
+</BaseLayout>
