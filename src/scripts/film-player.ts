@@ -255,6 +255,17 @@ chapterButtons.forEach((button, index) => {
 });
 range.addEventListener("input", () => jump(Number(range.value) / 10));
 
+root.addEventListener("click", (event) => {
+  const element = event.target instanceof Element ? event.target : null;
+  // Controls and links handle their own clicks; do not toggle again on bubble.
+  if (
+    event.defaultPrevented ||
+    element?.closest("a, button, input, select, textarea, .hud")
+  )
+    return;
+  toggle();
+});
+
 root.addEventListener(
   "wheel",
   (event) => {

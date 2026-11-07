@@ -21,7 +21,7 @@ export default function PortfolioFilm() {
       className="mv"
       id="mv"
       tabIndex={0}
-      aria-label="Yashika Varshney — an animated portfolio film. Use Play, scroll, or the arrow keys to move through it."
+      aria-label="Yashika Varshney — an animated portfolio film. Click or tap the film to play or pause. Use the player controls, scroll, or the arrow keys to move through it."
     >
       <div className="stage" id="stage">
         <Opening />
