@@ -1006,6 +1006,11 @@ span.a.hand {
   pointer-events: none;
   overflow: hidden;
 }
+.htrack:has(input:focus-visible) {
+  outline: 3px solid #f7e5a6;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
 .hc {
   all: unset;
   box-sizing: border-box;
@@ -1040,7 +1045,7 @@ span.a.hand {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: rgba(232, 220, 208, 0.55);
+  color: rgba(232, 220, 208, 0.75);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1048,7 +1053,7 @@ span.a.hand {
 }
 .hc .lbl b {
   font-weight: 700;
-  color: rgba(232, 220, 208, 0.4);
+  color: rgba(232, 220, 208, 0.7);
 }
 .hc:hover .lbl,
 .hc.on .lbl {

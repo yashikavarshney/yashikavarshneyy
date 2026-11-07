@@ -517,7 +517,7 @@ export default function Connect() {
                           fontSize: "13px",
                           fontWeight: "800",
                           letterSpacing: ".16em",
-                          color: "#9C8E82",
+                          color: "#77685E",
                         } as FilmStyle
                       }
                     >
@@ -554,7 +554,7 @@ export default function Connect() {
                           fontSize: "13px",
                           fontWeight: "800",
                           letterSpacing: ".16em",
-                          color: "#9C8E82",
+                          color: "#77685E",
                         } as FilmStyle
                       }
                     >
@@ -591,7 +591,7 @@ export default function Connect() {
                           fontSize: "13px",
                           fontWeight: "800",
                           letterSpacing: ".16em",
-                          color: "#9C8E82",
+                          color: "#77685E",
                         } as FilmStyle
                       }
                     >
@@ -628,7 +628,7 @@ export default function Connect() {
                           fontSize: "13px",
                           fontWeight: "800",
                           letterSpacing: ".16em",
-                          color: "#9C8E82",
+                          color: "#77685E",
                         } as FilmStyle
                       }
                     >
@@ -665,7 +665,7 @@ export default function Connect() {
                           fontSize: "13px",
                           fontWeight: "800",
                           letterSpacing: ".16em",
-                          color: "#9C8E82",
+                          color: "#77685E",
                         } as FilmStyle
                       }
                     >

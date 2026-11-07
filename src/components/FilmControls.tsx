@@ -130,7 +130,7 @@ export default function FilmControls() {
               key={chapter.title}
               className="hc"
               data-i={index}
-              aria-label={`Chapter ${index + 1}: ${chapter.title}`}
+              aria-label={`${String(index + 1).padStart(2, "0")} ${chapter.title}`}
             >
               <span className="bar">
                 <span className="fill" />

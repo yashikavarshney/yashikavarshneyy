@@ -13,7 +13,7 @@ export default function ReadablePortfolio() {
         <a
           className="rp-wordmark"
           href="/"
-          aria-label="Yashika Varshney — home"
+          aria-label={`${PROFILE.shortName} — ${PROFILE.name} home`}
         >
           {PROFILE.shortName}
         </a>
