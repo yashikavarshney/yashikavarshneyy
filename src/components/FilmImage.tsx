@@ -1,6 +1,7 @@
 import type { ImgHTMLAttributes } from "react";
 import { MEDIA_DIMENSIONS, type FilmImageSource } from "../data/media";
 import { IMAGE_VARIANTS, OPENING_IMAGE_SIZES } from "../data/image-variants";
+import { withBase } from "../lib/urls";
 
 type FilmImageProps = Omit<
   ImgHTMLAttributes<HTMLImageElement>,
@@ -21,8 +22,10 @@ export default function FilmImage({
   const variants = eager ? IMAGE_VARIANTS[src] : undefined;
   const srcSet = variants
     ? [
-        ...variants.map((variant) => `${variant.src} ${variant.width}w`),
-        `${src} ${dimensions.width}w`,
+        ...variants.map(
+          (variant) => `${withBase(variant.src)} ${variant.width}w`,
+        ),
+        `${withBase(src)} ${dimensions.width}w`,
       ].join(", ")
     : undefined;
 
@@ -30,7 +33,7 @@ export default function FilmImage({
   return (
     <img
       {...props}
-      src={eager ? src : undefined}
+      src={eager ? withBase(src) : undefined}
       srcSet={srcSet}
       sizes={srcSet ? OPENING_IMAGE_SIZES : undefined}
       data-src={eager ? undefined : src}

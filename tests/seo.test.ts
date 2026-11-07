@@ -5,6 +5,7 @@ import { normalizeSiteUrl } from "../src/lib/site-url.ts";
 import {
   HOME_TITLE,
   PORTFOLIO_TITLE,
+  SOCIAL_IMAGE,
   pageUrl,
   serializeJsonLd,
   structuredData,
@@ -34,22 +35,79 @@ test("an absent or blank SITE_URL does not imply a host", () => {
   );
 });
 
-test("SITE_URL is normalized and invalid or ambiguous origins are rejected", () => {
+test("SITE_URL normalizes root and project URLs while rejecting unsafe URLs", () => {
   assert.equal(
     normalizeSiteUrl(" https://portfolio.example "),
     "https://portfolio.example/",
+  );
+  assert.equal(
+    normalizeSiteUrl(" https://yashikavarshney.github.io/yashikavarshneyy "),
+    "https://yashikavarshney.github.io/yashikavarshneyy/",
   );
   for (const invalid of [
     "not-a-url",
     "javascript:alert(1)",
     "ftp://portfolio.example",
     "https://user:pass@portfolio.example",
-    "https://portfolio.example/path",
     "https://portfolio.example/?tracking=1",
     "https://portfolio.example/#fragment",
+    "https://portfolio.example/yashikavarshneyy/?",
+    "https://portfolio.example/yashikavarshneyy/#",
   ]) {
     assert.throws(() => normalizeSiteUrl(invalid), /SITE_URL/);
   }
+});
+
+test("site-relative routes and assets preserve a GitHub Pages project path", () => {
+  const site = new URL("https://yashikavarshney.github.io/yashikavarshneyy/");
+  const home = "https://yashikavarshney.github.io/yashikavarshneyy/";
+  assert.equal(pageUrl("/", site), home);
+  assert.equal(pageUrl("", site), home);
+  assert.equal(pageUrl("/portfolio/", site), `${home}portfolio/`);
+  assert.equal(pageUrl("portfolio/", site), `${home}portfolio/`);
+  assert.equal(pageUrl(SOCIAL_IMAGE, site), `${home}social/portfolio.jpg`);
+  assert.equal(pageUrl("/sitemap.xml", site), `${home}sitemap.xml`);
+  assert.equal(pageUrl("/robots.txt", site), `${home}robots.txt`);
+  assert.equal(
+    pageUrl("/portfolio/", new URL(home.slice(0, -1))),
+    `${home}portfolio/`,
+  );
+  assert.throws(() => pageUrl("../portfolio/", site), /within SITE_URL/);
+  assert.throws(
+    () => pageUrl("https://unrelated.example/portfolio/", site),
+    /within SITE_URL/,
+  );
+});
+
+test("project deployments keep JSON-LD identities and breadcrumbs inside their base", () => {
+  const base = "https://yashikavarshney.github.io/yashikavarshneyy/";
+  const site = new URL(base);
+  const home = structuredData({
+    title: HOME_TITLE,
+    description: PROFILE.description,
+    path: "/",
+    site,
+  });
+  const portfolio = structuredData({
+    title: PORTFOLIO_TITLE,
+    description: PROFILE.description,
+    path: "/portfolio/",
+    site,
+  });
+  const person = portfolio["@graph"][0]!.mainEntity as Record<string, unknown>;
+  const website = portfolio["@graph"].find((node) => node["@type"] === "WebSite")!;
+  const breadcrumb = portfolio["@graph"].find((node) => node["@type"] === "BreadcrumbList")!;
+  const items = breadcrumb.itemListElement as Record<string, unknown>[];
+  assert.equal(home["@graph"][0]!.url, base);
+  assert.equal(portfolio["@graph"][0]!.url, `${base}portfolio/`);
+  assert.equal(person["@id"], `${base}#person`);
+  assert.equal(person.url, base);
+  assert.equal(website["@id"], `${base}#website`);
+  assert.equal(website.url, base);
+  assert.deepEqual(items.map((item) => item.item), [base, `${base}portfolio/`]);
+  assert.deepEqual(portfolio["@graph"][0]!.breadcrumb, {
+    "@id": `${base}portfolio/#breadcrumbs`,
+  });
 });
 
 test("configured pages share one person identity but have distinct canonicals", () => {

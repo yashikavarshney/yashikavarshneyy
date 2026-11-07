@@ -1,5 +1,6 @@
 import { CHAPTERS, DURATION, SHOTS } from "../data/film";
 import { chooseVideoSource } from "../lib/video-source";
+import { withBase, withBaseSrcSet } from "../lib/urls";
 
 declare global {
   interface Window {
@@ -140,9 +141,9 @@ function prepareMedia(milliseconds: number) {
       element.loading = "eager";
       element.fetchPriority =
         milliseconds >= resource.window.start ? "high" : "low";
-      element.src = element.dataset.src!;
+      element.src = withBase(element.dataset.src!);
     } else {
-      element.poster = element.dataset.poster!;
+      element.poster = withBase(element.dataset.poster!);
     }
     resource.loaded = true;
   }
@@ -322,7 +323,7 @@ function syncVideos() {
         },
         { once: true },
       );
-      video.src = source.src;
+      video.src = withBase(source.src);
     }
 
     if (video.dataset.loop) {
@@ -639,8 +640,8 @@ const openingPosters = videos
     const artwork = new Image();
     artwork.fetchPriority = video === videos[0] ? "high" : "auto";
     artwork.sizes = video.dataset.posterSizes!;
-    artwork.srcset = video.dataset.posterSrcset!;
-    artwork.src = video.dataset.initialPoster!;
+    artwork.srcset = withBaseSrcSet(video.dataset.posterSrcset!);
+    artwork.src = withBase(video.dataset.initialPoster!);
     const updatePoster = () => {
       video.poster = artwork.currentSrc || artwork.src;
     };

@@ -2,6 +2,7 @@
 import '../styles/fonts.css';
 import { PROFILE } from '../data/profile';
 import { POSTER_VARIANTS } from '../data/poster-variants';
+import { withBase, withBaseSrcSet } from '../lib/urls';
 import { HOME_TITLE, SOCIAL_IMAGE, pageUrl, serializeJsonLd, structuredData } from '../lib/seo';
 
 interface Props {
@@ -23,15 +24,15 @@ const openingPoster = POSTER_VARIANTS['/media/2f384c20c92f9ef944f51c81c3f9d7f9.w
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preload" as="font" href="/fonts/figtree-400.woff2" type="font/woff2" crossorigin />
+    <link rel="preload" as="font" href={withBase('/fonts/figtree-400.woff2')} type="font/woff2" crossorigin />
     {animated && <>
-      <link rel="preload" as="font" href="/fonts/latin/caveat-500.woff2" type="font/woff2" crossorigin />
-      <link rel="preload" as="font" href="/fonts/latin/caveat-700.woff2" type="font/woff2" crossorigin />
-      <link rel="preload" as="font" href="/fonts/figtree-700.woff2" type="font/woff2" crossorigin />
+      <link rel="preload" as="font" href={withBase('/fonts/latin/caveat-500.woff2')} type="font/woff2" crossorigin />
+      <link rel="preload" as="font" href={withBase('/fonts/latin/caveat-700.woff2')} type="font/woff2" crossorigin />
+      <link rel="preload" as="font" href={withBase('/fonts/figtree-700.woff2')} type="font/woff2" crossorigin />
     </>}
-    {!animated && <link rel="preload" as="font" href="/fonts/bricolage-grotesque-800.woff2" type="font/woff2" crossorigin />}
-    {animated && <link rel="preload" as="image" href={openingPoster.src} imagesrcset={openingPoster.srcSet} imagesizes={openingPoster.sizes} fetchpriority="high" />}
-    <link rel="icon" type="image/webp" href="/favicon.webp" />
+    {!animated && <link rel="preload" as="font" href={withBase('/fonts/bricolage-grotesque-800.woff2')} type="font/woff2" crossorigin />}
+    {animated && <link rel="preload" as="image" href={withBase(openingPoster.src)} imagesrcset={withBaseSrcSet(openingPoster.srcSet)} imagesizes={openingPoster.sizes} fetchpriority="high" />}
+    <link rel="icon" type="image/webp" href={withBase('/favicon.webp')} />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={PROFILE.name} />
@@ -63,7 +64,7 @@ const openingPoster = POSTER_VARIANTS['/media/2f384c20c92f9ef944f51c81c3f9d7f9.w
     {animated && <noscript>
       <div style="position:fixed;inset:0;z-index:200;display:grid;place-content:center;gap:1rem;padding:2rem;background:#17110E;color:#FBF5EC;font-family:system-ui,sans-serif;text-align:center">
         <p>Enable JavaScript to watch Yashika's animated portfolio.</p>
-        <a href="/portfolio/">Read the portfolio without animation</a>
+        <a href={withBase('/portfolio/')}>Read the portfolio without animation</a>
         <a href="mailto:yashikavarshney.yv@gmail.com">Contact Yashika by email</a>
       </div>
     </noscript>}

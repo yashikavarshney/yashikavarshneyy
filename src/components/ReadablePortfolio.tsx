@@ -1,4 +1,5 @@
 import { PROFILE } from "../data/profile";
+import { withBase } from "../lib/urls";
 
 const projectImageSizes = {
   emtdesk: { width: 1400, height: 875 },
@@ -12,7 +13,7 @@ export default function ReadablePortfolio() {
       <header className="rp-header">
         <a
           className="rp-wordmark"
-          href="/"
+          href={withBase("/")}
           aria-label={`${PROFILE.shortName} — ${PROFILE.name} home`}
         >
           {PROFILE.shortName}
@@ -20,7 +21,7 @@ export default function ReadablePortfolio() {
         <nav aria-label="Portfolio navigation">
           <a href="#selected-work">Selected work</a>
           <a href="#contact">Contact</a>
-          <a className="rp-film-link" href="/">
+          <a className="rp-film-link" href={withBase("/")}>
             Watch the animated portfolio <span aria-hidden="true">↗</span>
           </a>
         </nav>
@@ -29,7 +30,7 @@ export default function ReadablePortfolio() {
       <nav className="rp-breadcrumbs" aria-label="Breadcrumb">
         <ol>
           <li>
-            <a href="/">Home</a>
+            <a href={withBase("/")}>Home</a>
           </li>
           <li aria-current="page">Portfolio</li>
         </ol>
@@ -82,7 +83,7 @@ export default function ReadablePortfolio() {
                   </p>
                 </div>
                 <img
-                  src={project.image}
+                  src={withBase(project.image)}
                   alt={project.imageAlt}
                   width={projectImageSizes[project.id].width}
                   height={projectImageSizes[project.id].height}
@@ -153,7 +154,7 @@ export default function ReadablePortfolio() {
               <p>
                 Yes. This page brings together the selected project summaries,
                 areas of work, and contact details. You can also{" "}
-                <a href="/">watch the animated portfolio</a>.
+                <a href={withBase("/")}>watch the animated portfolio</a>.
               </p>
             </article>
             <article>
@@ -194,7 +195,7 @@ export default function ReadablePortfolio() {
 
       <footer className="rp-footer">
         <p>Yashika Varshney · Product Designer × Creative Thinker</p>
-        <a href="/">Watch the animated portfolio</a>
+        <a href={withBase("/")}>Watch the animated portfolio</a>
       </footer>
     </div>
   );

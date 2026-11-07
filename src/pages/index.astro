@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PortfolioFilm from '../components/PortfolioFilm';
+import { withBase } from '../lib/urls';
 import '../styles/portfolio.css';
 ---
 
@@ -9,7 +10,7 @@ import '../styles/portfolio.css';
     <h1 id="portfolio-heading" class="sr-only">Yashika Varshney — Product Designer &amp; Creative Thinker</h1>
     <PortfolioFilm />
   </main>
-  <a class="portfolio-text-link" href="/portfolio/">Read portfolio</a>
+  <a class="portfolio-text-link" href={withBase('/portfolio/')}>Read portfolio</a>
 </BaseLayout>
 
 <script>

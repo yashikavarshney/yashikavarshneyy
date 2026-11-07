@@ -8,6 +8,7 @@ const site = normalizeSiteUrl(process.env.SITE_URL ?? environment.SITE_URL);
 
 export default defineConfig({
   site,
+  base: site ? new URL(site).pathname : '/',
   output: 'static',
   trailingSlash: 'always',
   build: { inlineStylesheets: 'always' },

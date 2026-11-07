@@ -1,4 +1,5 @@
 import { PROFILE } from "../data/profile.ts";
+import { normalizeSiteUrl } from "./site-url.ts";
 
 export const PAGE_PATHS = ["/", "/portfolio/"] as const;
 export const SOCIAL_IMAGE = "/social/portfolio.jpg";
@@ -8,7 +9,17 @@ export const PORTFOLIO_TITLE =
   "Projects & About | Yashika Varshney, Product Designer";
 
 export function pageUrl(path: string, site?: URL): string | undefined {
-  return site ? new URL(path, site).href : undefined;
+  if (!site) return undefined;
+  const base = new URL(normalizeSiteUrl(site.href)!);
+  // A leading slash denotes a site route, not the hosting origin's root.
+  const resolved = new URL(path.replace(/^\/+/, ""), base);
+  if (
+    resolved.origin !== base.origin ||
+    !resolved.pathname.startsWith(base.pathname)
+  ) {
+    throw new Error("SEO paths must stay within SITE_URL.");
+  }
+  return resolved.href;
 }
 
 export function structuredData(options: {
