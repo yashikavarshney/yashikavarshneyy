@@ -1,68 +1,56 @@
-# Yashika Varshney's portfolio
+# Hi, I'm Yashika Varshney
 
-An animated portfolio built with Astro and React TSX components. Astro pre-renders the TSX components to static HTML at build time without client hydration. A small TypeScript browser script controls the film timeline, playback, and navigation; visitors do not download a React runtime. No server adapter is required.
+**Product Designer. Creative Thinker. Professional overthinker.**
 
-## Development
+![Yashika's illustrated portfolio — Product Designer × Creative Thinker](public/social/portfolio.jpg)
 
-Use Node.js 22.23.4 or newer and npm 9.6.5 or newer.
+I design digital experiences, but I'm curious about a lot more than pixels. My work brings together enterprise UX, design systems, motion, and creative experimentation.
 
-```sh
-npm ci
-npm run dev
-```
+I like making sense of messy problems: understanding what people need, exploring the possibilities, and turning complex workflows into interfaces that feel clear and usable.
 
-The development server prints its local preview address.
+## What I do
 
-```sh
-npm run check
-npm test
-npm run build
-npm run preview
-```
+- **Product design & enterprise UX** — dashboards, operational tools, and workflows that bring scattered information together.
+- **Design systems** — shared patterns and a consistent visual language across products, roles, and modules.
+- **Motion design** — micro-interactions, loaders, and playful details built with Lottie.
+- **AI-assisted design** — rapid prototyping, visual exploration, and experiments with new ways of making things.
 
-`check` validates Astro and TypeScript files. `build` writes the production site to `dist/`; `preview` serves that build locally.
+My process: **Understand → Explore → Design → Iterate → Ship.**
 
-## Project structure
+## Selected work
 
-```text
-src/
-  pages/index.astro             Home page
-  layouts/BaseLayout.astro      Document metadata and shared styles
-  components/PortfolioFilm.tsx  Film composition
-  components/FilmControls.tsx   Playback and chapter controls
-  components/FilmOverlays.tsx   Shared visual overlays
-  components/scenes/            Individual TSX film scenes
-  data/film.ts                 Chapter and shot timing
-  scripts/film-player.ts        Browser playback and input handling
-  styles/fonts.css             Local font definitions
-  styles/portfolio.css         Original portfolio styling and animation
-public/
-  fonts/                       WOFF2 fonts
-  media/                       WebP images and WebM videos
-```
+Some of the products I've worked on at EaseMyTrip:
 
-Media and fonts are separate files so browsers can cache them independently. Edit scenes, styles, or timing data in `src/`; `dist/` is generated output.
+### EMTDesk
 
-The original artwork, typography, scene composition, and 230-second animation timeline are preserved. Videos load when their scenes become visible. Chapter navigation opens readable frames, and the transparent closing overlay no longer blocks contact links.
+A corporate travel console for travel managers and travellers. The design uses a shared grid and widget language, with different scopes for admins and employees and interchangeable modules for different client setups.
 
-This migration keeps the original fixed-ratio mobile layout and Safari poster fallback. It does not redesign the mobile experience or provide a complete reduced-motion alternative.
+### QMS — From Query to Booking
 
-## Hosting
+An enterprise workflow that brings queries, profiles, calls, tickets, and bookings into one view. Rules-based routing and screens for five roles lead into a progressive package builder.
 
-Run `npm ci` followed by `npm run build`, then publish the contents of `dist/` to a static host. Production does not need a Node.js server. The film's interactive controls require JavaScript in the visitor's browser.
+### EMT Analytics
 
-## SEO and structured data
+As lead UI/UX designer across nine modules and six teams, I helped organize analytics around four questions: what is happening, why, which users are affected, and what should happen next?
 
-Set `SITE_URL` to the public origin at build time, or copy `.env.example` to `.env` and fill it in. The site currently serves from the domain root, so use an origin without a subdirectory, query, or fragment.
+My work also includes Enterprise CRM and EasyMail, bringing everyday operations into more connected, consistent interfaces.
 
-```sh
-SITE_URL=https://your-domain.tld npm run build
-```
+## Beyond the brief
 
-When set, this generates canonical URLs, absolute Open Graph/Twitter sharing URLs, stable JSON-LD identifiers, `sitemap.xml`, and the sitemap reference in `robots.txt`. When unset or blank, those domain-dependent fields and the sitemap are omitted; no preview host or placeholder domain is substituted. Invalid non-empty values fail the build.
+I'm a **Lottie Certified Creator** and **Lottie Squad Creator**. I enjoy making motion for product interfaces and have completed LottieFiles courses for Figma and Framer.
 
-Both pages include descriptive titles, descriptions, author metadata, crawl directives, and factual `ProfilePage`/`Person` JSON-LD. With `SITE_URL` set, the graph also includes `WebSite` and visible `BreadcrumbList` markup on `/portfolio/`. The sharing image is a screenshot of the existing portfolio. Edit `src/data/profile.ts` for identity, social profiles, and readable project summaries.
+I share what I learn, experiment with AI in the design process, and sometimes make things simply to see what happens.
 
-The public `/portfolio/` page exposes the project text, headings, images, contact links, and answers without animation or JavaScript. It is linked from the film and provides a readable source for people, search engines, and answer engines. It is not hidden crawler-only content. The film's no-JavaScript fallback also links to this page.
+Travel is one of my favorite sources of inspiration. Places, street signs, colors, food, and small observations find their way into new ideas. Hanoi, Bangkok, Bali, and Almaty are part of that inspiration wall.
 
-The structured data describes the existing content; it does not assert ratings, current employment, a complete hosted video, or unsupported qualifications. Valid markup does not guarantee rich-result display. Once deployed with `SITE_URL`, validate the live pages with Google's Rich Results Test and submit the sitemap in Search Console. See Google's [profile markup documentation](https://developers.google.com/search/docs/appearance/structured-data/profile-page) and [AI search guidance](https://developers.google.com/search/docs/appearance/ai-features); there is no special AEO schema or `llms.txt` requirement for Google's AI search features.
+**Design. Travel. Learn. Explore. Experiment. Repeat.**
+
+## Let's make something amazing
+
+If you've got a problem worth solving, I'd love to hear about it.
+
+- [Email me](mailto:yashikavarshney.yv@gmail.com)
+- [LinkedIn](https://www.linkedin.com/in/yashika-varshney/)
+- [Behance](https://www.behance.net/yashikavarshney2)
+- [Dribbble](https://dribbble.com/yashie_uiux)
+- [Instagram](https://www.instagram.com/uiux.yashie/)
