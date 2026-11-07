@@ -10,6 +10,7 @@ declare global {
 const root = document.querySelector<HTMLElement>("#mv")!;
 const stage = document.querySelector<HTMLElement>("#stage")!;
 const range = document.querySelector<HTMLInputElement>("#range")!;
+const progressTrack = document.querySelector<HTMLElement>(".htrack")!;
 const label = document.querySelector<HTMLElement>("#chlabel")!;
 const toggleButton = document.querySelector<HTMLButtonElement>("#toggle")!;
 const start = document.querySelector<HTMLElement>("#start")!;
@@ -41,6 +42,8 @@ let lastSpark = 0;
 let lastSync = 0;
 let previousTime = -1;
 let loopsPlaying: boolean | null = null;
+let scrubbing = false;
+let resumeAfterScrub = false;
 
 function fit() {
   stage.style.scale = String(
@@ -72,6 +75,10 @@ function render() {
   }
 
   range.value = String(Math.round(time * 10));
+  range.setAttribute(
+    "aria-valuetext",
+    `${formatTime(time)} of ${formatTime(DURATION)}`,
+  );
   chapterButtons.forEach((button, index) => {
     const chapter = CHAPTERS[index]!;
     const end = CHAPTERS[index + 1]?.start ?? DURATION;
@@ -96,6 +103,10 @@ function render() {
     currentChapter = chapterIndex;
     label.textContent = `${String(chapterIndex + 1).padStart(2, "0")} / ${CHAPTERS[chapterIndex]!.title.toUpperCase()}`;
   }
+}
+
+function formatTime(seconds: number) {
+  return `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
 }
 
 for (const video of videos) {
@@ -228,9 +239,9 @@ function jump(seconds: number) {
   time = target = Math.max(0, Math.min(DURATION, seconds));
 }
 
-function seekBy(seconds: number) {
+function seekTo(seconds: number) {
   begin();
-  time = target = Math.max(0, Math.min(DURATION, time + seconds));
+  time = target = Math.max(0, Math.min(DURATION, seconds));
   ended = time >= DURATION;
   setPlaying(playing && !ended);
   // A paused seek updates the visible video frame without briefly playing it.
@@ -244,16 +255,74 @@ document
   .querySelector<HTMLButtonElement>("#startbtn")!
   .addEventListener("click", play);
 toggleButton.addEventListener("click", toggle);
-document
-  .querySelector<HTMLButtonElement>("#seek-backward")!
-  .addEventListener("click", () => seekBy(-10));
-document
-  .querySelector<HTMLButtonElement>("#seek-forward")!
-  .addEventListener("click", () => seekBy(10));
 chapterButtons.forEach((button, index) => {
-  button.addEventListener("click", () => jump(CHAPTERS[index]!.target));
+  button.addEventListener("click", (event) => {
+    // Pointer clicks on the bars seek; the chapter labels still navigate.
+    if (event.detail > 0 && isProgressBarPoint(event.clientY)) return;
+    jump(CHAPTERS[index]!.target);
+  });
 });
-range.addEventListener("input", () => jump(Number(range.value) / 10));
+range.addEventListener("input", () => seekTo(Number(range.value) / 10));
+
+function isProgressBarPoint(y: number) {
+  const bounds = chapterButtons[0]!
+    .querySelector(".bar")!
+    .getBoundingClientRect();
+  return y >= bounds.top - 6 && y <= bounds.bottom + 6;
+}
+
+function timeFromProgressX(x: number) {
+  for (const [index, button] of chapterButtons.entries()) {
+    const bounds = button.getBoundingClientRect();
+    if (x <= bounds.right || index === CHAPTERS.length - 1) {
+      const fraction = Math.max(
+        0,
+        Math.min(1, (x - bounds.left) / bounds.width),
+      );
+      const chapter = CHAPTERS[index]!;
+      const end = CHAPTERS[index + 1]?.start ?? DURATION;
+      return chapter.start + fraction * (end - chapter.start);
+    }
+  }
+  return DURATION;
+}
+
+progressTrack.addEventListener("pointerdown", (event) => {
+  if (
+    event.button !== 0 ||
+    !event.isPrimary ||
+    !isProgressBarPoint(event.clientY)
+  )
+    return;
+  event.preventDefault();
+  progressTrack.setPointerCapture(event.pointerId);
+  range.focus({ preventScroll: true });
+  scrubbing = true;
+  resumeAfterScrub = playing;
+  if (playing) pause();
+  seekTo(timeFromProgressX(event.clientX));
+});
+progressTrack.addEventListener("pointermove", (event) => {
+  if (scrubbing) seekTo(timeFromProgressX(event.clientX));
+});
+progressTrack.addEventListener("pointerup", (event) => {
+  if (scrubbing) seekTo(timeFromProgressX(event.clientX));
+});
+
+function finishScrub() {
+  if (!scrubbing) return;
+  scrubbing = false;
+  if (resumeAfterScrub && time < DURATION) {
+    setPlaying(true);
+    previousTime = -1;
+    lastSync = 0;
+  }
+  resumeAfterScrub = false;
+}
+
+window.addEventListener("pointerup", finishScrub);
+window.addEventListener("pointercancel", finishScrub);
+range.addEventListener("blur", finishScrub);
 
 root.addEventListener("click", (event) => {
   const element = event.target instanceof Element ? event.target : null;
@@ -310,6 +379,13 @@ window.addEventListener("keydown", (event) => {
 root.addEventListener(
   "touchstart",
   (event) => {
+    if (
+      event.target instanceof Element &&
+      event.target.closest("a, button, input, .hud")
+    ) {
+      touchOrigin = null;
+      return;
+    }
     const touch = event.touches[0];
     if (touch) touchOrigin = { x: touch.clientX, y: touch.clientY };
   },
